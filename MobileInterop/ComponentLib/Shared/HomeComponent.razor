@@ -1,0 +1,45 @@
+﻿@page "/"
+
+<div class="my-component">
+    HomeComponent defined in the <strong>ComponentLib</strong> library.
+</div>
+
+<button class="btn btn-primary" @onclick="() => Go()">Go</button>
+
+@if (@didGo)
+{
+    <div class="output">
+        <div>Platform: @platform</div>
+        <div>Postal Code: @postalCode</div>
+        <div>Connectivity: @connectivity</div>
+    </div>
+}
+
+@code
+{
+    private bool didGo { get; set; } = false;
+    private string platform { get; set; } = "Unknown";
+    private string? postalCode { get; set; } = "Unknown";
+    private string connectivity { get; set; } = "Unknown";
+
+    /// <summary>
+    /// Call a few methods on the multi-target class SharedClass in the
+    /// multi-target CodeLib library.
+    /// </summary>
+    async Task Go()
+    {
+        platform = CodeLib.SharedClass.GetPlatformName();
+        postalCode = await CodeLib.SharedClass.GetPostalCode("1912 Pike Pl, Seattle, WA 98101");
+
+        try
+        {
+            connectivity = CodeLib.SharedClass.GetConnectivity();
+        }
+        catch
+        {
+            connectivity = "Exception";
+        }
+
+        didGo = true;
+    }
+}
