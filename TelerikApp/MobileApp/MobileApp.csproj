@@ -11,6 +11,8 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
+        <MtouchExtraArgs>--linkskip=Telerik.UI.for.Blazor</MtouchExtraArgs>
+            <UseInterpreter>true</UseInterpreter>
 
         <!-- Display name -->
         <ApplicationTitle>MobileApp</ApplicationTitle>
