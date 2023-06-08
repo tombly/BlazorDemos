@@ -25,16 +25,49 @@ babel ...
  TODO: show index.html
  ```
 
-## Caveat #2: AOT Limitations
+## Caveat #2: AOT limitations
 
-iOS apps are typically built using ahead-of-time (AOT) compilation which was originally necessary to adhere to Apple's policies. A more recent option is to use the Xamarin Interpreter which uses just-in-time (JIT) compilation while still adhering to Apple's guidelines.
+iOS apps are typically built using ahead-of-time (AOT) compilation which was originally necessary to adhere to Apple's policies. A more recent option is to use the Xamarin Interpreter which uses just-in-time (JIT) compilation while still adhering to Apple's App Store policies (or at least that was the intention).
 
-The advantage of AOT is that the code executes faster and is smaller, with the disadvantage of not supporting specific dynamic typing scenarios.
+The advantage of AOT (in addition to official support by Apple) is that the code executes faster, but has the disadvantages of longer build times and does not support some scenarios in which generics are used [Details](https://learn.microsoft.com/en-us/xamarin/ios/internals/limitations).
 
-The advantage of JIT is that it can handle dynamic typing, but has the disadvantage of slower execution time and larger executable (since JIT apps cannot be linked to remove unreferenced code).
+The advantages of JIT include support for any use of generics, builds are faster, and executables are smaller, but has the disadvantage of slower execution time (and possibly policy issues with Apple's App Store).
 
 It appears that Telerik UI for Blazor uses some C# language features that are not supported with AOT (related to how their component input parameters are initialized). The components throw an error when the page is rendered (TODO LINK TO IMAGE).
 
 Telerik acknowledges the issue and recommends using JIT. Coincidentally, SyncFusion's Blazor components also do not support AOT and require JIT. [Details](https://blazor.syncfusion.com/documentation/getting-started/maui-blazor-app).
 
-TODO: code execution/size comparison for small/large apps.
+### Analysis
+
+Here is a comparison of AOT vs. JIT in terms of executable size and launch performance for a small demo app and a large production app.
+
+The following command was used to build the IPA file:
+
+``` bash
+dotnet publish --configuration Release --framework net7.0-ios --runtime ios-arm64
+```
+
+The following was added to the csproj file to enable JIT:
+
+``` xml
+  <PropertyGroup>
+    <UseInterpreter>true</UseInterpreter>
+  </PropertyGroup>
+```
+
+The launch time was measured using Xcode Instruments and is the total time between when the app is launched and the UI is first rendered (which happens after all the application lifecycle callbacks (e.g. `didFinishLaunchingWithOptions`).
+
+| Sample App | IPA size    | Launch time |
+| ---------- | ----------- | ----------- |
+| AOT        | 30.5 MB     | 1.201 sec.  |
+| JIT        | 10.2 MB     | 1.037 sec.  |
+
+The results are similar for a large production app:
+
+| Prod App   | IPA size    | Launch time |
+| ---------- | ----------- | ----------- |
+| AOT        | 56.3 MB     | 1.905 sec.  |
+| JIT        | 21.5 MB     | 1.475 sec.  |
+
+There was no perceivable performance difference (screen load time, tap responsiveness, etc.) when navigating around the JIT app as compared to the AOT app. 
+
