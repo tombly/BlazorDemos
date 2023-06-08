@@ -11,8 +11,6 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
-        <MtouchExtraArgs>--linkskip=Telerik.UI.for.Blazor</MtouchExtraArgs>
-            <UseInterpreter>true</UseInterpreter>
 
         <!-- Display name -->
         <ApplicationTitle>MobileApp</ApplicationTitle>
@@ -61,7 +59,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-        <PackageReference Include="Telerik.UI.for.Blazor" Version="4.2.0" />
+        <PackageReference Include="Telerik.UI.for.Blazor" Version="4.3.0" />
     </ItemGroup>
 
     <ItemGroup>
