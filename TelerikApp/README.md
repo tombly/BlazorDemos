@@ -31,7 +31,8 @@ iOS apps are typically built using ahead-of-time (AOT) compilation which was ori
 
 The advantage of AOT (in addition to official support by Apple) is that the code executes faster, but has the disadvantages of longer build times and does not support some scenarios in which generics are used [Details](https://learn.microsoft.com/en-us/xamarin/ios/internals/limitations).
 
-The advantages of JIT include support for any use of generics, builds are faster, and executables are smaller, but has the disadvantage of slower execution time (and possibly policy issues with Apple's App Store).
+The advantages of JIT include support for any use of generics, builds are faster, and executables are smaller, but has the disadvantage of slower execution time (and possibly policy issues with Apple's App Store). Using JIT may also result in less-useful stack traces from crashes (as pointed out by Microsoft's docs [Details](https://learn.microsoft.com/en-us/xamarin/mac/internals/aot
+)).
 
 It appears that Telerik UI for Blazor uses some C# language features that are not supported with AOT (related to how their component input parameters are initialized). The components throw an error when the page is rendered (TODO LINK TO IMAGE).
 
@@ -71,3 +72,4 @@ The results are similar for a large production app:
 
 There was no perceivable performance difference (screen load time, tap responsiveness, etc.) when navigating around the JIT app as compared to the AOT app. 
 
+Interestingly, the launch time is faster with JIT, contrary to what Microsoft states: This is opposite of what Microsoft states: https://learn.microsoft.com/en-us/xamarin/mac/internals/aot
