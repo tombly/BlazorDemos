@@ -70,6 +70,11 @@
       <RazorComponent Remove="Shared\RedComponent.razor" />
     </ItemGroup>
     <ItemGroup>
+      <Content Remove="wwwroot\js\" />
+      <Content Remove="package.json" />
+      <Content Remove="package-lock.json" />
+    </ItemGroup>
+    <ItemGroup>
       <Content Include="Shared\BlueComponent.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
@@ -91,5 +96,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Shared\" />
+      <Folder Include="wwwroot\js\" />
     </ItemGroup>
 </Project>
